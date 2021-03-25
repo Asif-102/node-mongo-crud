@@ -16,18 +16,15 @@
         <input type="text" placeholder="quantity" name="quantity">
         <button type="submit">Add Product</button>
     </form>
-    <div id="products">
-    </div>
-    <div id="update">
-    </div>
+    <div id="products"></div>
+    <div id="update"></div>
     <script>
         function loadAllProducts() {
             fetch('/products')
                 .then(res => res.json())
                 .then(products => {
-                    console.log(products)
                     const container = document.getElementById('products');
-                    container.innerHTML='';
+                    container.innerHTML = '';
                     products.forEach(pd => {
                         const p = document.createElement('p');
                         p.innerHTML = `<strong>${pd.name}</strong> --price: ${pd.price} quantity: ${pd.quantity}
@@ -39,12 +36,12 @@
         }
         loadAllProducts();
 
-        function loadProduct(id){
+        function loadProduct(id) {
             fetch(`product/${id}`)
-            .then(res => res.json())
-            .then(data => {
-                const update = document.getElementById('update');
-                update.innerHTML = `
+                .then(res => res.json())
+                .then(data => {
+                    const update = document.getElementById('update');
+                    update.innerHTML = `
                 <h3>Update: ${data._id}</h3>
                 price: <input type="text" value="${data.price}" id="price">
                 <br>
@@ -52,37 +49,37 @@
                 <br>
                 <button onclick="updateProduct('${data._id}')">submit</button>
                 `;
-            })
+                })
         }
 
-        function updateProduct(id){
+        function updateProduct(id) {
             const price = document.getElementById('price').value;
             const quantity = document.getElementById('quantity').value;
-            const product = {id, price,  quantity};
-            fetch(`/update/${id}`,{
-                method:'PATCH',
-                headers:{'Content-Type':'application/json'},
-                body:JSON.stringify(product)
+            const product = { id, price, quantity };
+            fetch(`/update/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(product)
             })
-            .then(res => res.json())
-            .then(result => {
-                if(result){
-                    loadAllProducts();
-                    document.getElementById('update').innerHTML='';
-                }
-            })
+                .then(res => res.json())
+                .then(result => {
+                    if (result) {
+                        loadAllProducts();
+                        document.getElementById('update').innerHTML = '';
+                    }
+                })
         }
 
-        function deleteProduct(event,id){
-            fetch(`/delete/${id}`,{
-                method:'DELETE'
+        function deleteProduct(event, id) {
+            fetch(`/delete/${id}`, {
+                method: 'DELETE'
             })
-            .then(res => res.json())
-            .then(result => {
-                if(result){
-                    event.target.parentNode.style.display="none";
-                }
-            })
+                .then(res => res.json())
+                .then(result => {
+                    if (result) {
+                        event.target.parentNode.style.display = "none";
+                    }
+                })
         }
     </script>
 </body>

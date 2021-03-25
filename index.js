@@ -38,7 +38,7 @@ client.connect(err => {
         const product = req.body;
         productCollection.insertOne(product)
         .then(result => {
-            console.log('data added successfully');
+            // console.log('data added successfully');
             // res.send('success');
             res.redirect('/')
 
